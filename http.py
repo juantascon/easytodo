@@ -2,7 +2,6 @@
 
 from collections import OrderedDict
 from flask import Flask, request, jsonify, json
-from flask.ext import restful
 
 app = Flask(__name__, static_url_path='/static')
 
