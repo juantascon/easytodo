@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Todos by juantascon</title>
+  <!--<link rel="stylesheet" href="todos.css"/>-->
+</head>
+
+<body>
+  
+  <div id="todoapp">
+    
+    <section id="header">
+      <h1>Todos</h1>
+    </section>
+    
+    <section id="todo-new">
+      <input id="todo-new-input" type="text" placeholder="What needs to be done?">
+      <button id="todo-new-button">Add Todo</button>
+    </section>
+    
+    <section id="main">
+      <ul id="todo-list"></ul>
+    </section>
+    
+    <section id="stats">
+    </section>
+    
+  </div>
+  
+  <script src="lib/json2.js"></script>
+  <script src="lib/jquery.js"></script>
+  <script src="lib/underscore.js"></script>
+  <script src="lib/backbone.js"></script>
+  <script src="uuid.js"></script>
+  <script src="todos.js"></script>
+  
+  <script type="text/template" id="template-item">
+    <div class="view">
+      <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+      <label><%- title %></label>
+      <a class="button-edit">---</a>
+      <a class="button-destroy">X</a>
+    </div>
+    <input class="edit" type="text" value="<%- title %>" />
+  </script>
+  
+  <script type="text/template" id="template-stats">
+    <% if (done) { %>
+      <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
+    <% } %>
+    <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
+  </script>
+  
+  </body>
+</html>
