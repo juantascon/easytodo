@@ -4,7 +4,7 @@ $(function(){
     defaults: function() {
       return { title: "edit me!", done: false, id: uuid() };
     },
-    
+  
     toggle: function() {
       this.save({done: !this.get("done")});
     }
@@ -13,7 +13,7 @@ $(function(){
   var TodoView = Backbone.View.extend({
     tagName:  "li",
     
-    template: _.template($('#template-items').html()),
+    template: _.template($('#template-item').html()),
     
     events: {
       "click .toggle" : "toggle",
@@ -68,12 +68,12 @@ $(function(){
     url: "/api/todos",
     //localStorage: new Backbone.LocalStorage("todos-backbone"),
     
-    filter_done: function() {
-      return this.where({done: true});
+    count_done: function() {
+      return this.where({done: true}).length;
     },
     
-    filter_remaining: function() {
-      return this.where({done: false});
+    count_remaining: function() {
+      return this.where({done: false}).length;
     }
   });
   
@@ -115,45 +115,25 @@ $(function(){
     }
   });
   
-  var AppView = Backbone.View.extend({
-    el: $("#todoapp"),
+  var StatsView = Backbone.View.extend({
+    el: $("#stats"),
     
-    events: {
-      "click #todo-new-button":  "create",
-      "keypress #todo-new-input": "edit_keypress"
-    },
+    template: _.template($('#template-stats').html()),
     
     initialize: function() {
-      this.listenTo(todos, 'add', this.add);
-      
-      this.input = this.$("#todo-new-input");
-      
-      todos.fetch();
+      this.listenTo(todos, 'all', this.render);
+      this.render();
     },
     
-    edit_keypress: function(e) {
-      // on "enter" add new item
-      if (e.keyCode == 13) {
-        this.create();
-      }
-    },
-    
-    create: function(){
-      todos.create({title: this.input.val()});
-      this.input.val('');
-    },
-    
-    add: function(todo) {
-      var view = new TodoView({model: todo});
-      this.$("#todo-list").append(view.render().el);
-    },
-    
-    add_all: function() {
-      todos.each(this.add, this);
+    render: function() {
+      console.log("stats render");
+      this.$el.html(this.template({remaining: todos.count_remaining()}));
+      return this;
     }
   });
   
   var todos = new TodoList;
   var app = new AppView;
+  var stats = new StatsView;
 
 });
