@@ -74,6 +74,12 @@ $(function(){
     
     count_remaining: function() {
       return this.where({done: false}).length;
+    },
+    
+    mark_all_complete: function() {
+      this.each(function(model){
+        model.save({done: true});
+      });
     }
   });
   
@@ -108,17 +114,18 @@ $(function(){
     add: function(todo) {
       var view = new TodoView({model: todo});
       this.$("#todo-list").append(view.render().el);
-    },
-    
-    add_all: function() {
-      todos.each(this.add, this);
     }
   });
   
+  // handles count text and mark-all button
   var StatsView = Backbone.View.extend({
     el: $("#stats"),
     
     template: _.template($('#template-stats').html()),
+    
+    events: {
+      "click a.button-mark-all-complete":  "mark_all_complete"
+    },
     
     initialize: function() {
       this.listenTo(todos, 'all', this.render);
@@ -126,9 +133,12 @@ $(function(){
     },
     
     render: function() {
-      console.log("stats render");
-      this.$el.html(this.template({remaining: todos.count_remaining()}));
+      this.$("#todo-count").html(this.template({remaining: todos.count_remaining()}));
       return this;
+    },
+    
+    mark_all_complete: function(){
+      todos.mark_all_complete();
     }
   });
   

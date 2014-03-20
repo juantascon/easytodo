@@ -25,6 +25,8 @@
     </section>
     
     <section id="stats">
+      <div id="todo-count" style="display: inline"></div>
+      <a class="button-mark-all-complete">Mark all as complete</a>
     </section>
     
   </div>
@@ -47,7 +49,7 @@
   </script>
   
   <script type="text/template" id="template-stats">
-    <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
+    <b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left
   </script>
   
   </body>
