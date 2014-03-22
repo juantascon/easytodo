@@ -18,7 +18,6 @@ $(function(){
     events: {
       "click .toggle" : "toggle",
       "click a.button-destroy" : "destroy",
-      "click a.button-move" : "destroy",
       "dblclick .view" : "edit_start",
       "blur .edit": "edit_end", //"blur .edit" means focus leaves the edit input field
       "keypress .edit": "edit_keypress"
