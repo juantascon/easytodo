@@ -8,7 +8,7 @@ import argparse
 app = Flask(__name__, static_url_path='/static')
 
 # the database :)
-d = dict()
+app.store = dict()
 
 #
 # TODOS API: get / upsert / delete
@@ -17,7 +17,7 @@ d = dict()
 # load all elements
 @app.route("/api/todos", methods=["GET"])
 def get_todos():
-    ordered = sorted(d.values(), key=lambda v: v["order"])
+    ordered = sorted(app.store.values(), key=lambda v: v["order"])
     return json.dumps(ordered)
 
 # updates an element or insert it if it doesn't exists
@@ -37,8 +37,8 @@ def upsert_todo(id):
     if not isinstance(request.json.get("order"), int):
         return jsonify(result="fail", reason="invalid value: order")
     
-    if not d.get(id): d[id] = {}
-    todo = d.get(id)
+    if not app.store.get(id): app.store[id] = {}
+    todo = app.store.get(id)
     
     todo["id"] = request.json.get("id")
     todo["title"] = request.json.get("title")
@@ -50,7 +50,7 @@ def upsert_todo(id):
 # deletes an element
 #@app.route("/api/todos/<string:id>", methods=['DELETE'])
 #def delete_todo(id):
-#    del d[id]
+#    del app.store[id]
 #    return jsonify(result="ok")
 
 # run the http server
