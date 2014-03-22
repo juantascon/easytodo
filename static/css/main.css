@@ -207,7 +207,7 @@ body {
 }
 
 #todo-list li:hover .button-move{
-	content:url("handle.png");
+	content:url("/static/assets/handle.png");
 }
 
 input[type=checkbox] {
