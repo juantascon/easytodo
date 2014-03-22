@@ -2,6 +2,8 @@
 
 from collections import OrderedDict
 from flask import Flask, request, jsonify, json
+import argparse
+import sys
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -44,4 +46,14 @@ def delete_todo(id):
 
 # run the http server
 if __name__ == '__main__':
-    app.run(debug=True, port=8001)
+    parser = argparse.ArgumentParser(description = "runs the easytodo server")
+    
+    parser.add_argument("-d", "--debug", action="store_true", help="runs on debug mode, listening only on localhost")
+    
+    args = parser.parse_args()
+    
+    if args.debug:
+        app.run(host="127.0.0.1", port=8001, debug=True)
+    else:
+        app.run(host="0.0.0.0", port=8001)
+    
