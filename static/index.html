@@ -4,13 +4,14 @@
 <head>
   <meta charset="utf-8">
   <title>Todos by juantascon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="lib/jquery-ui.css"/>
   <link rel="stylesheet" href="todos.css"/>
 </head>
 
 <body>
   
   <div id="todoapp">
-    
     <section id="header">
       <h1>Todos</h1>
     </section>
@@ -32,6 +33,7 @@
   </div>
   
   <script src="lib/jquery.js"></script>
+  <script src="lib/jquery-ui.js"></script>
   <script src="lib/underscore.js"></script>
   <script src="lib/backbone.js"></script>
   <script src="uuid.js"></script>
@@ -41,8 +43,8 @@
     <div class="view">
       <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
       <label><%- title %></label>
-      <a class="button-edit">---</a>
-      <a class="button-destroy">X</a>
+      <a class="button-move"></a>
+      <a class="button-destroy"></a>
     </div>
     <input class="edit" type="text" value="<%- title %>" />
   </script>

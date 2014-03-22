@@ -2,9 +2,9 @@ $(function(){
   
   var TodoModel = Backbone.Model.extend({
     defaults: function() {
-      return { title: "edit me!", done: false, id: uuid() };
+      return { title: "edit me!", done: false, id: uuid(), order: 0 };
     },
-  
+    
     toggle: function() {
       this.save({done: !this.get("done")});
     }
@@ -18,7 +18,8 @@ $(function(){
     events: {
       "click .toggle" : "toggle",
       "click a.button-destroy" : "destroy",
-      "click a.button-edit" : "edit_start",
+      "click a.button-move" : "destroy",
+      "dblclick .view" : "edit_start",
       "blur .edit": "edit_end", //"blur .edit" means focus leaves the edit input field
       "keypress .edit": "edit_keypress"
     },
@@ -26,6 +27,7 @@ $(function(){
     initialize: function() {
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'destroy', this.remove);
+      $(this.el).data("todoview", this); // assign the view to the dom element
     },
     
     render: function() {
@@ -65,6 +67,8 @@ $(function(){
   var TodoList = Backbone.Collection.extend({
     model: TodoModel,
     
+    comparator: "order",
+    
     url: "/api/todos",
     //localStorage: new Backbone.LocalStorage("todos-backbone"),
     
@@ -80,6 +84,31 @@ $(function(){
       this.each(function(model){
         model.save({done: true});
       });
+    },
+    
+    reindex: function(from, to) {
+      console.log("from:"+from);
+      console.log("to:"+to);
+      
+      if (from == to) { return; }
+      
+      console.log(""+from+"->"+(to));
+      this.at(from).save({order: to});
+      
+      if( from > to ) {
+        for (var i = to; i < from; i++) {
+          console.log(""+i+"->"+(i+1));
+          this.at(i).save({order: i+1});
+        }
+      }
+      else {
+        for (var i = from+1; i < to+1; i++) {
+          console.log(""+i+"->"+(i-1));
+          this.at(i).save({order: i-1});
+        }
+      }
+      
+      this.sort(); //resort the items based on the comparator
     }
   });
   
@@ -96,6 +125,17 @@ $(function(){
       
       this.input = this.$("#todo-new-input");
       
+      $( "#todo-list" ).sortable({
+        handle: ".button-move",
+        stop: function(e, ui) {
+          var todoview = $(ui.item).data("todoview"); // get the view from the dom element, previously stored
+          var from = todoview.model.get("order");
+          var to = ui.item.index();
+          
+          todos.reindex(from, to); // re create order values for every affected model
+        }
+      });
+      
       todos.fetch();
     },
     
@@ -107,12 +147,12 @@ $(function(){
     },
     
     create: function(){
-      todos.create({title: this.input.val()});
+      todos.create({title: this.input.val(), order: todos.length});
       this.input.val('');
     },
     
     add: function(todo) {
-      var view = new TodoView({model: todo});
+      var view = new TodoView({model: todo, order: todos.length});
       this.$("#todo-list").append(view.render().el);
     }
   });
