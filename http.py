@@ -9,11 +9,11 @@ app = Flask(__name__, static_url_path='/static')
 
 # the database :)
 d = dict()
-d["xxxx0"] = {"done": False, "id": "xxxx0", "order": 0, "title": "0"}
-d["xxxx1"] = {"done": False, "id": "xxxx1", "order": 1, "title": "1"}
-d["xxxx2"] = {"done": False, "id": "xxxx2", "order": 2, "title": "2"}
-d["xxxx3"] = {"done": False, "id": "xxxx3", "order": 3, "title": "3"}
-d["xxxx4"] = {"done": False, "id": "xxxx4", "order": 4, "title": "4"}
+#d["xxxx0"] = {"done": False, "id": "xxxx0", "order": 0, "title": "0"}
+#d["xxxx1"] = {"done": False, "id": "xxxx1", "order": 1, "title": "1"}
+#d["xxxx2"] = {"done": False, "id": "xxxx2", "order": 2, "title": "2"}
+#d["xxxx3"] = {"done": False, "id": "xxxx3", "order": 3, "title": "3"}
+#d["xxxx4"] = {"done": False, "id": "xxxx4", "order": 4, "title": "4"}
 
 #
 # TODOS API: get / upsert / delete
