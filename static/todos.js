@@ -86,23 +86,17 @@ $(function(){
     },
     
     reindex: function(from, to) {
-      console.log("from:"+from);
-      console.log("to:"+to);
-      
       if (from == to) { return; }
       
-      console.log(""+from+"->"+(to));
       this.at(from).save({order: to});
       
       if( from > to ) {
         for (var i = to; i < from; i++) {
-          console.log(""+i+"->"+(i+1));
           this.at(i).save({order: i+1});
         }
       }
       else {
         for (var i = from+1; i < to+1; i++) {
-          console.log(""+i+"->"+(i-1));
           this.at(i).save({order: i-1});
         }
       }
