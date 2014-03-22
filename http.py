@@ -53,7 +53,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     if args.debug:
+        print("Running on debug mode")
         app.run(host="127.0.0.1", port=8001, debug=True)
     else:
+        print("Running on production mode, use -d for debug mode")
         app.run(host="0.0.0.0", port=8001)
     
