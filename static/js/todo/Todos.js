@@ -20,6 +20,7 @@ define(["backbone", "todo/Todo"], function(Backbone, Todo) {
       });
     },
     
+    // reorganizes the models order atrribute and the internal order of models, useful on drag-and-drop
     reindex: function(from, to) {
       if (from == to) { return; }
       
@@ -40,6 +41,7 @@ define(["backbone", "todo/Todo"], function(Backbone, Todo) {
     }
   },
   {
+    // singleton functionality
     _instance: null,
     instance: function(){
       if (! Todos._instance){
