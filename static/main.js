@@ -22,7 +22,6 @@ require.config({
   }
 });
 
-require([ "App", "StatsView" ], function(App, StatsView){
-  new StatsView;
+require([ "App" ], function(App){
   new App;
 });
