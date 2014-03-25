@@ -1,4 +1,4 @@
-easytodo
+About
 ========
 
-easytodo
+easytodo - very simple web app to handle todo lists.
